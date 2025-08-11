@@ -39,8 +39,20 @@ app.use("/api/notifications", notificationRoutes);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-    // Handle React routing - catch all non-API routes
-    app.get(/^\/(?!api).*/, (req, res) => {
+    // Handle React routing for specific paths only
+    app.get('/', (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    });
+
+    app.get('/login', (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    });
+
+    app.get('/signup', (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    });
+
+    app.get('/notifications', (req, res) => {
         res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
     });
 }
