@@ -74,6 +74,7 @@ const SignUpPage = () => {
 							className='grow'
 							placeholder='Email'
 							name='email'
+							autoComplete='email'
 							onChange={handleInputChange}
 							value={formData.email}
 						/>
@@ -86,6 +87,7 @@ const SignUpPage = () => {
 								className='grow '
 								placeholder='Username'
 								name='username'
+								autoComplete='username'
 								onChange={handleInputChange}
 								value={formData.username}
 							/>
@@ -109,6 +111,7 @@ const SignUpPage = () => {
 							className='grow'
 							placeholder='Password'
 							name='password'
+							autoComplete='new-password'
 							onChange={handleInputChange}
 							value={formData.password}
 						/>

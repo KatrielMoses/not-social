@@ -68,6 +68,7 @@ const LoginPage = () => {
 							className='grow'
 							placeholder='username'
 							name='username'
+							autoComplete='username'
 							onChange={handleInputChange}
 							value={formData.username}
 						/>
@@ -80,6 +81,7 @@ const LoginPage = () => {
 							className='grow'
 							placeholder='Password'
 							name='password'
+							autoComplete='current-password'
 							onChange={handleInputChange}
 							value={formData.password}
 						/>
