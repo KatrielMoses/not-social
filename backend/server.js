@@ -33,21 +33,35 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/notifications", notificationRoutes);
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"))
-    })
-}
+// Connect to MongoDB (with error handling for serverless)
+let isConnected = false;
 
+const ensureConnection = async () => {
+    if (!isConnected) {
+        try {
+            await connectMongoDB();
+            isConnected = true;
+        } catch (error) {
+            console.error('Database connection failed:', error);
+        }
+    }
+};
+
+// Middleware to ensure DB connection
+app.use(async (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+        await ensureConnection();
+    }
+    next();
+});
+
+// For local development
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log("Server is running on port", PORT)
-        connectMongoDB();
+        ensureConnection();
     });
-} else {
-    connectMongoDB();
 }
 
 export default app;
