@@ -43,14 +43,38 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// Connect to MongoDB
-connectMongoDB();
+// Initialize database connection
+let dbConnected = false;
 
-// Start server (Vercel will handle this in production)
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-        console.log("Server is running on port", PORT);
-    });
-}
+const initDB = async () => {
+    try {
+        await connectMongoDB();
+        dbConnected = true;
+        console.log("Database connection successful");
+    } catch (error) {
+        console.error("Database connection failed:", error.message);
+        dbConnected = false;
+    }
+};
 
+// Add middleware to check DB connection for API routes
+app.use('/api', (req, res, next) => {
+    if (!dbConnected) {
+        return res.status(503).json({
+            error: "Database connection not available",
+            message: "Please try again in a few moments"
+        });
+    }
+    next();
+});
+
+// Initialize DB connection
+initDB();
+
+// Start server for local development
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+// Export for Vercel
 export default app;
