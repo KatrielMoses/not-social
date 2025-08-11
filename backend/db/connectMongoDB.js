@@ -6,11 +6,7 @@ const connectMongoDB = async () => {
         console.log("MONGODB Connected: ", conn.connection.host);
     } catch (error) {
         console.error("Error connecting to the DB: ", error.message);
-        // Don't exit in serverless environment
-        if (process.env.NODE_ENV !== 'production') {
-            process.exit(1);
-        }
-        throw error;
+        process.exit(1);
     }
 }
 

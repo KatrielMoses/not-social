@@ -34,33 +34,22 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Connect to MongoDB (with error handling for serverless)
-let isConnected = false;
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-const ensureConnection = async () => {
-    if (!isConnected) {
-        try {
-            await connectMongoDB();
-            isConnected = true;
-        } catch (error) {
-            console.error('Database connection failed:', error);
-        }
-    }
-};
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    });
+}
 
-// Middleware to ensure DB connection
-app.use(async (req, res, next) => {
-    if (req.path.startsWith('/api/')) {
-        await ensureConnection();
-    }
-    next();
-});
+// Connect to MongoDB
+connectMongoDB();
 
-// For local development
+// Start server (Vercel will handle this in production)
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
-        console.log("Server is running on port", PORT)
-        ensureConnection();
+        console.log("Server is running on port", PORT);
     });
 }
 
