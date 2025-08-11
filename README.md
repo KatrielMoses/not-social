@@ -3,7 +3,7 @@
 A modern, minimal, lightning-fast social app. Built to impress: clean UX, real-time feel, production-ready stack.
 
 ## Live
-- Web: [LIVE](https://not-social.vercel.app/login)
+- Web: [LIVE](https://not-social.vercel.app)
 
 
 ## Highlights
