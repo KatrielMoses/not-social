@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
@@ -38,43 +39,16 @@ app.use("/api/notifications", notificationRoutes);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-    app.get("*", (req, res) => {
+    // Handle React routing - catch all non-API routes
+    app.get(/^\/(?!api).*/, (req, res) => {
         res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
     });
 }
 
-// Initialize database connection
-let dbConnected = false;
+// Connect to MongoDB
+connectMongoDB();
 
-const initDB = async () => {
-    try {
-        await connectMongoDB();
-        dbConnected = true;
-        console.log("Database connection successful");
-    } catch (error) {
-        console.error("Database connection failed:", error.message);
-        dbConnected = false;
-    }
-};
-
-// Add middleware to check DB connection for API routes
-app.use('/api', (req, res, next) => {
-    if (!dbConnected) {
-        return res.status(503).json({
-            error: "Database connection not available",
-            message: "Please try again in a few moments"
-        });
-    }
-    next();
-});
-
-// Initialize DB connection
-initDB();
-
-// Start server for local development
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-// Export for Vercel
-export default app;
