@@ -9,6 +9,7 @@ const XSvg = ({ horizontal = false, ...props }) => {
           </linearGradient>
         </defs>
 
+
         <text
           x="10"
           y="20"
@@ -20,6 +21,7 @@ const XSvg = ({ horizontal = false, ...props }) => {
         >
           NOT
         </text>
+
 
         <text
           x="50"
@@ -37,6 +39,7 @@ const XSvg = ({ horizontal = false, ...props }) => {
     );
   }
 
+
   return (
     <svg aria-hidden="true" role="img" viewBox="0 0 120 60" {...props}>
       <defs>
@@ -45,6 +48,7 @@ const XSvg = ({ horizontal = false, ...props }) => {
           <stop offset="100%" stopColor="#8B5CF6" />
         </linearGradient>
       </defs>
+
 
       <text
         x="60"
@@ -58,6 +62,7 @@ const XSvg = ({ horizontal = false, ...props }) => {
       >
         NOT
       </text>
+
 
       <text
         x="60"

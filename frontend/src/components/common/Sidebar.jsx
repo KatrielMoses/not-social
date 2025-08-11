@@ -33,7 +33,6 @@ const Sidebar = () => {
 		},
 		onSuccess: () => {
 			toast.success("Logged out!");
-			// Clear the auth user data immediately and invalidate the query
 			queryClient.setQueryData(['authUser'], null);
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
@@ -50,6 +49,7 @@ const Sidebar = () => {
 				<Link to='/' className='flex justify-center md:justify-start'>
 					<XSvg horizontal={true} className='px-2 w-32 h-8 rounded-full fill-white hover:bg-stone-900' />
 				</Link>
+
 
 				<div className='hidden md:block px-2 mt-4'>
 					<SearchUsers />

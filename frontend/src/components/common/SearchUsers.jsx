@@ -11,6 +11,7 @@ const SearchUsers = () => {
     const [showResults, setShowResults] = useState(false);
     const searchRef = useRef(null);
 
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedQuery(searchQuery);
@@ -19,6 +20,7 @@ const SearchUsers = () => {
 
         return () => clearTimeout(timer);
     }, [searchQuery]);
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -66,6 +68,7 @@ const SearchUsers = () => {
 
     return (
         <div className='w-full mb-4 relative' ref={searchRef}>
+
             <label className="input input-bordered flex items-center gap-2 bg-base-200 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-opacity-50">
                 <IoSearch className='h-4 w-4 opacity-70' />
                 <input
@@ -85,6 +88,7 @@ const SearchUsers = () => {
                     </button>
                 )}
             </label>
+
 
             {showResults && debouncedQuery && (
                 <div className='dropdown-content absolute top-full left-0 right-0 mt-1 bg-base-100 border border-base-300 rounded-box max-h-64 overflow-y-auto z-50 shadow-xl'>

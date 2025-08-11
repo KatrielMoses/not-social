@@ -28,6 +28,7 @@ const useUpdateUserProfile = (currentUrlUsername) => {
 		onSuccess: (updatedUser, formData) => {
 			toast.success("Profile updated successfully");
 
+
 			if (formData.username && formData.username !== currentUrlUsername) {
 				navigate(`/profile/${formData.username}`, { replace: true });
 			}
