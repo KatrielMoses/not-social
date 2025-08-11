@@ -3,8 +3,8 @@
 A modern, minimal, lightning-fast social app. Built to impress: clean UX, real-time feel, production-ready stack.
 
 ## Live
-- Web: https://your-vercel-url
-- API: https://your-vercel-url/api
+- Web: [LIVE](https://not-social.vercel.app/login)
+
 
 ## Highlights
 - Optimistic like/unlike (instant UI updates)
