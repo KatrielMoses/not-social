@@ -8,7 +8,6 @@ import { v2 as cloudinary } from "cloudinary";
 import postRoutes from "./routes/post.routes.js"
 import notificationRoutes from "./routes/notification.routes.js"
 import path from "path"
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -19,48 +18,28 @@ cloudinary.config({
 });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve()
 
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/notifications", notificationRoutes);
-
-// Serve static files in production
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+    app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-    // Handle React routing for specific paths only
-    app.get('/', (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-    });
-
-    app.get('/login', (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-    });
-
-    app.get('/signup', (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-    });
-
-    app.get('/notifications', (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-    });
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+    })
 }
 
-// Connect to MongoDB
-connectMongoDB();
-
-// Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+    console.log("Server is running on port", PORT)
+    connectMongoDB();
+})
